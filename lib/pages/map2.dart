@@ -72,13 +72,13 @@ class _MyMap2State extends State<MyMap2> {
 
   Set<Marker> myAllMarker() {
     List<Marker> markers = [];
-    List<double> hues = [80.0, 60.0, 150.0, 20.0];
+    // List<double> hues = [80.0, 60.0, 150.0, 20.0];
 
-    Marker userMarker = Marker(
-        markerId: MarkerId('idUser'),
-        position: LatLng(lat, lng),
-        infoWindow: InfoWindow(title: 'คุณอยู่ที่นี่'),
-        icon: BitmapDescriptor.defaultMarkerWithHue(300));
+    // Marker userMarker = Marker(
+    //     markerId: MarkerId('idUser'),
+    //     position: LatLng(lat, lng),
+    //     infoWindow: InfoWindow(title: 'คุณอยู่ที่นี่'),
+    //     icon: BitmapDescriptor.defaultMarkerWithHue(300));
 
     for (var item in insxModel2s) {
       Marker marker = Marker(
@@ -87,7 +87,7 @@ class _MyMap2State extends State<MyMap2> {
         markerId: MarkerId('id${item.id}'),
         position: LatLng(double.parse(item.lat), double.parse(item.lng)),
         infoWindow: InfoWindow(
-          title: '${item.cus_name}(${calculageDifdate(item.noti_date, item)})',
+          title: '${item.cus_name}(${calculageDifdate(item.noti_date)})',
           snippet: '${item.write_id} PEA:${item.pea_no}',
           onTap: () {
             MaterialPageRoute route = MaterialPageRoute(
@@ -139,7 +139,7 @@ class _MyMap2State extends State<MyMap2> {
       yellowInt++;
       latLngYellow =
           LatLng(double.parse(insxModel2.lat), double.parse(insxModel2.lng));
-    }  else {
+    } else {
       greenInt++;
       result = hues[0];
       latLngGreen =
@@ -147,10 +147,12 @@ class _MyMap2State extends State<MyMap2> {
     }
     return result;
   }
-  int calculageDifdate(String notidate, InsxModel2 insxModel2) {
-    List<double> hues = [80.0, 60.0, 200.0, 20.0];
+
+  int calculageDifdate(String notidate) {
+    
     List<String> strings = notidate.split(" ");
     List<String> dateTimeInts = strings[0].split('-');
+
     DateTime notiDateTime = DateTime(
       int.parse(dateTimeInts[0]),
       int.parse(dateTimeInts[1]),
@@ -158,32 +160,8 @@ class _MyMap2State extends State<MyMap2> {
     );
 
     DateTime currentDateTime = DateTime.now();
-    int diferDate = currentDateTime.difference(notiDateTime).inDays +1;
-    double result; //green
+    int diferDate = currentDateTime.difference(notiDateTime).inDays + 1;
 
-    
-
-    if (diferDate >= 6) {
-      result = hues[3]; //red 20
-      redInt++;
-      latLngRed =
-          LatLng(double.parse(insxModel2.lat), double.parse(insxModel2.lng));
-    } else if (diferDate >= 2) {
-      result = hues[2]; //blue
-      blueInt++;
-      latLngBlue =
-          LatLng(double.parse(insxModel2.lat), double.parse(insxModel2.lng));
-    } else if (diferDate >= 1) {
-      result = hues[1]; // yellow
-      yellowInt++;
-      latLngYellow =
-          LatLng(double.parse(insxModel2.lat), double.parse(insxModel2.lng));
-    }  else {
-      greenInt++;
-      result = hues[0];
-      latLngGreen =
-          LatLng(double.parse(insxModel2.lat), double.parse(insxModel2.lng));
-    }
     return diferDate;
   }
 
